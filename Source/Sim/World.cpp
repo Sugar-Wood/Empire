@@ -15,7 +15,6 @@
 #include "CustomColonyCreator.h"
 
 //#define SWIMMING_ENABLED
-//#define LASER_SWIMMING
 
 constexpr int CHAR_SIZE = 14;
 
@@ -181,11 +180,7 @@ void World::update(sf::Image& image)
         //For encounters with people of the same colony or others
         if (movePerson.getColony() == colonyID) //disease will spread
         {
-            if (movePerson.isDiseased())
-            {
-                person.giveDisease();
-            }
-
+ 
             if (person.isSwimming())
             {
                 person.turnAround();
@@ -213,34 +208,11 @@ void World::update(sf::Image& image)
         //Only reproduce over land
         if (person.isSwimming())
         {
-            //Kill the old person, the current person has now moved.
-            //I know this is weird, but it works :^)
-            #ifndef LASER_SWIMMING
-            person.kill();
-            #endif // LASER_SWIMMING
-
-            #ifdef LASER_SWIMMING
-            //Turning this on causes "laser people"(assuming swimming is enabled)
-            person.init(person.getChild());
-            #endif // LASER_SWIMMING
 
 
 
-        }
-        else
-        {
-            if ((person.getProduction() >= (unsigned)m_pConfig->reproductionThreshold))
-            {
-                //The person itself has moved to a new spot, so it is ok to mess with it's data now
-                person.init(person.getChild());
-            }
-            else
-            {
-                //Kill the old person, the current person has now moved.
-                //I know this is weird, but it works :^)
-                person.kill();
-            }
-        }
+
+  
 
         endAlive();
     });
